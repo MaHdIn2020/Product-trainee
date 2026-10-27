@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Foodi - Offers Prototype</title>
+<style>
+:root{--p:#f26522;--pd:#d4501a;--bg:#f5f5f7;--c:#fff;--t:#1c1c1e;--m:#8a8a8e;--g:#1e9e5a}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:#e4e4e8;color:var(--t);display:flex;justify-content:center}
+#app{width:100%;max-width:420px;min-height:100vh;background:var(--bg);position:relative;overflow:hidden;box-shadow:0 0 30px rgba(0,0,0,.15)}
+.scr{display:none;padding-bottom:110px;min-height:100vh}.scr.on{display:block}
+.top{background:var(--p);color:#fff;padding:18px 16px 22px;border-radius:0 0 22px 22px}
+.loc{font-size:12px;opacity:.85}.addr{font-weight:700;font-size:16px;margin-top:2px}
+.search{background:#fff;color:var(--m);border-radius:12px;padding:12px 14px;margin-top:14px;font-size:14px}
+.chips{display:flex;gap:10px;padding:16px;overflow-x:auto}
+.chip{flex:0 0 auto;text-align:center;font-size:12px;width:64px}
+.chip i{display:block;width:56px;height:56px;border-radius:16px;margin:0 auto 6px;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.08);line-height:56px;font-style:normal;font-weight:700;color:var(--p);font-size:18px}
+h3{font-size:17px;padding:4px 16px 10px;display:flex;justify-content:space-between;align-items:center}
+h3 a{font-size:13px;color:var(--p);font-weight:600;cursor:pointer}
+.promo{margin:0 16px 14px;border-radius:16px;padding:18px;color:#fff;background:linear-gradient(135deg,#f26522,#f9a03f);cursor:pointer}
+.promo b{font-size:24px;display:block}.promo span{font-size:13px;opacity:.95}
+.tag{display:inline-block;background:#fff;color:var(--pd);font-size:12px;font-weight:700;padding:4px 10px;border-radius:20px;margin-top:10px}
+.card{background:var(--c);margin:0 16px 14px;border-radius:16px;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.06);cursor:pointer}
+.img{height:120px;display:flex;align-items:flex-end;padding:10px;position:relative}
+.img .badge{background:var(--p);color:#fff;font-weight:700;font-size:13px;padding:5px 10px;border-radius:8px}
+.img .nm{position:absolute;right:12px;top:10px;font-size:34px;font-weight:800;color:rgba(255,255,255,.45)}
+.inf{padding:12px 14px}.inf b{font-size:16px}.sub{font-size:12px;color:var(--m);margin-top:3px}
+.cap{display:inline-block;margin-top:8px;font-size:12px;font-weight:700;color:var(--g);background:#e6f6ed;padding:4px 9px;border-radius:6px;margin-right:6px}
+.min{display:inline-block;margin-top:8px;font-size:12px;color:var(--m);background:#f0f0f2;padding:4px 9px;border-radius:6px}
+.hd{height:170px;position:relative;display:flex;align-items:flex-end;padding:16px;color:#fff}
+.bk{position:absolute;left:12px;top:14px;background:rgba(255,255,255,.9);color:var(--t);border:0;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer}
+.hd h2{font-size:24px}
+.box{background:#fff;margin:12px 16px;border-radius:14px;padding:14px;font-size:14px;line-height:1.5}
+.box h4{font-size:14px;margin-bottom:8px}.box .row{display:flex;justify-content:space-between;padding:3px 0}
+.dl{background:#fff7f1;border:1px dashed var(--p)}
+.it{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f0f0f2}
+.it:last-child{border:0}.it small{color:var(--m);display:block;font-size:12px}
+.add{background:#fff;border:1.5px solid var(--p);color:var(--p);font-weight:700;border-radius:8px;padding:6px 16px;cursor:pointer}
+.qty{display:flex;align-items:center;gap:10px;font-weight:700}
+.qty button{width:28px;height:28px;border-radius:50%;border:0;background:var(--p);color:#fff;font-size:16px;cursor:pointer}
+.bar{position:fixed;bottom:0;width:100%;max-width:420px;padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));background:#fff;box-shadow:0 -2px 12px rgba(0,0,0,.08);display:none}
+.bar.on{display:block}
+.btn{width:100%;border:0;background:var(--p);color:#fff;font-size:16px;font-weight:700;padding:14px;border-radius:12px;display:flex;justify-content:space-between;cursor:pointer}
+.save{background:#e6f6ed;color:var(--g);font-weight:600;border-radius:10px;padding:10px 12px;margin-top:10px;font-size:13px}
+.warn{background:#fff3e0;color:#b45309}
+.tot{font-weight:800;font-size:16px;border-top:1px solid #eee;margin-top:6px;padding-top:10px!important}
+.ok{text-align:center;padding:90px 30px}.ok .ck{width:84px;height:84px;border-radius:50%;background:var(--g);color:#fff;font-size:44px;line-height:84px;margin:0 auto 18px}
+</style></head><body><div id="app">
+<div class="scr on" id="home">
+ <div class="top"><div class="loc">Deliver to</div><div class="addr">Home, Dhaka</div><div class="search">Search restaurants or dishes</div></div>
+ <div class="chips" id="chips"></div>
+ <h3>Today's best offer</h3>
+ <div class="promo" onclick="show('offers')"><b>Save with offers</b><span>See the minimum order and maximum discount before you order</span><br><div class="tag">View all offers</div></div>
+ <h3>Restaurants near you <a onclick="show('offers')">See offers</a></h3><div id="homeList"></div>
+</div>
+<div class="scr" id="offers"><div class="top"><div class="addr">Offers</div><div class="loc">Every offer shows its discount cap</div></div><div style="height:14px"></div><div id="offList"></div></div>
+<div class="scr" id="detail"></div>
+<div class="scr" id="cart"></div>
+<div class="scr" id="done"><div class="ok"><div class="ck">&#10003;</div><h2>Order placed</h2><p style="color:#8a8a8e;margin:10px 0 24px">Sample data only. Your food is on the way.</p><button class="btn" style="justify-content:center" onclick="reset()">Back to home</button></div></div>
+<div class="bar" id="bar"></div>
+</div>
+<script>
+var R=[
+{n:"Burger Barn",c:"Burgers  |  25-35 min",g:"linear-gradient(135deg,#b23a1e,#f2994a)",p:10,min:500,cap:150,t:"Valid on all menu items. Delivery fee excluded. Cannot be combined with other vouchers.",m:[["Classic Beef Burger","Beef patty, cheese, lettuce",320],["Chicken Zinger","Crispy chicken, mayo",280],["Cheese Fries","Large portion",180],["Cola","500 ml",60]]},
+{n:"Spice Garden",c:"Bangladeshi  |  30-40 min",g:"linear-gradient(135deg,#7a3b0c,#e0a030)",p:20,min:800,cap:200,t:"Once per user per day. Not valid on beverages.",m:[["Kacchi Biryani","Mutton, aromatic rice",450],["Chicken Roast","With polao",220],["Beef Tehari","Served with borhani",260],["Borhani","250 ml",50]]},
+{n:"Pizza Corner",c:"Pizza  |  35-45 min",g:"linear-gradient(135deg,#9c1c28,#e8604c)",p:15,min:1000,cap:250,t:"Valid on pizzas and sides only. Excludes drinks.",m:[["Pepperoni Pizza 10 in","Mozzarella, pepperoni",650],["BBQ Chicken Pizza 10 in","Smoky BBQ sauce",600],["Garlic Bread","4 pieces",150],["Brownie","With ice cream",190]]}];
+var cur=0,cart={};
+function $(i){return document.getElementById(i)}
+function show(s){document.querySelectorAll(".scr").forEach(function(e){e.classList.remove("on")});$(s).classList.add("on");window.scrollTo(0,0);bar(s)}
+function card(r,i){return '<div class="card" onclick="open_('+i+')"><div class="img" style="background:'+r.g+'"><span class="badge">'+r.p+'% OFF</span><span class="nm">'+r.n[0]+'</span></div><div class="inf"><b>'+r.n+'</b><div class="sub">'+r.c+'</div><span class="cap">Up to '+r.cap+' tk off</span><span class="min">Min order '+r.min+' tk</span></div></div>'}
+function init(){["Burgers","Biryani","Pizza","Dessert","Drinks"].forEach(function(c){$("chips").innerHTML+='<div class="chip"><i>'+c[0]+'</i>'+c+'</div>'});
+R.forEach(function(r,i){$("homeList").innerHTML+=card(r,i);$("offList").innerHTML+=card(r,i)})}
+function open_(i){cur=i;cart={};render();show("detail")}
+function sub(){var s=0;R[cur].m.forEach(function(x,j){s+=(cart[j]||0)*x[2]});return s}
+function count(){var n=0;for(var k in cart)n+=cart[k];return n}
+function calc(){var r=R[cur],s=sub();if(s<r.min)return{d:0,s:s,short:r.min-s};var raw=s*r.p/100;return{d:Math.min(raw,r.cap),s:s,capped:raw>r.cap}}
+function render(){var r=R[cur],h='<div class="hd" style="background:'+r.g+'"><button class="bk" onclick="show(\'offers\')">&larr;</button><h2>'+r.n+'</h2></div>';
+h+='<div class="box dl"><h4>'+r.p+'% off, up to '+r.cap+' tk</h4><div class="row"><span>Minimum order</span><b>'+r.min+' tk</b></div><div class="row"><span>Maximum discount</span><b>'+r.cap+' tk</b></div><div class="row"><span>Example</span><b>'+r.cap+' tk off on '+Math.round(r.cap*100/r.p)+' tk or more</b></div><div style="margin-top:8px;color:#8a8a8e;font-size:12px"><b>Terms:</b> '+r.t+'</div></div><div class="box"><h4>Menu</h4>';
+r.m.forEach(function(x,j){var q=cart[j]||0;h+='<div class="it"><div><b>'+x[0]+'</b><small>'+x[1]+'</small><span style="font-size:13px">'+x[2]+' tk</span></div>'+(q?'<div class="qty"><button onclick="ch('+j+',-1)">-</button>'+q+'<button onclick="ch('+j+',1)">+</button></div>':'<button class="add" onclick="ch('+j+',1)">Add</button>')+'</div>'});
+$("detail").innerHTML=h+'</div>';bar("detail")}
+function ch(j,v){cart[j]=Math.max(0,(cart[j]||0)+v);render()}
+function bar(s){var b=$("bar");if(s==="detail"&&count()){b.className="bar on";b.innerHTML='<button class="btn" onclick="checkout()"><span>View cart ('+count()+')</span><span>'+sub()+' tk</span></button>'}else if(s==="cart"){b.className="bar on";var c=calc();b.innerHTML='<button class="btn" onclick="show(\'done\')"><span>Place order</span><span>'+(c.s-c.d+50)+' tk</span></button>'}else b.className="bar"}
+function checkout(){var r=R[cur],c=calc(),h='<div class="hd" style="height:90px;background:'+r.g+'"><button class="bk" onclick="show(\'detail\')">&larr;</button><h2>Your cart</h2></div><div class="box"><h4>'+r.n+'</h4>';
+r.m.forEach(function(x,j){if(cart[j])h+='<div class="row"><span>'+cart[j]+' x '+x[0]+'</span><span>'+cart[j]*x[2]+' tk</span></div>'});
+h+='</div><div class="box"><h4>Payment summary</h4><div class="row"><span>Subtotal</span><span>'+c.s+' tk</span></div><div class="row"><span>Delivery fee</span><span>50 tk</span></div><div class="row" style="color:#1e9e5a"><span>Discount ('+r.p+'%, cap '+r.cap+' tk)</span><span>- '+c.d+' tk</span></div><div class="row tot"><span>Total</span><span>'+(c.s-c.d+50)+' tk</span></div>';
+if(c.short)h+='<div class="save warn">Add '+c.short+' tk more to unlock '+r.p+'% off (up to '+r.cap+' tk).</div>';
+else h+='<div class="save">You save '+c.d+' tk'+(c.capped?'. Maximum discount of '+r.cap+' tk reached.':'. Add more to save up to '+r.cap+' tk.')+'</div>';
+$("cart").innerHTML=h+'</div>';show("cart")}
+function reset(){cart={};show("home")}
+init();
+</script></body></html>
